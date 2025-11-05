@@ -7,10 +7,10 @@
   "frame": {
     "version": "next",
     "name": "Onchain Lens",
-    "homeUrl": "https://app-025585e3-nzhr.vercel.app",
+    "homeUrl": "https://onchainlens.app",
     "iconUrl": "https://onchainlens.app/icon.png",
     "splashImageUrl": "https://onchainlens.app/splash.png",
     "splashBackgroundColor": "#0A0B0D",
-    "webhookUrl": "https://app-025585e3-nzhr.vercel.app/api/webhook"
+    "webhookUrl": "https://onchainlens.app/api/webhook"
   }
 }

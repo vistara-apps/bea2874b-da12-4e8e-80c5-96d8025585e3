@@ -23,13 +23,6 @@ const config: Config = {
         md: "var(--radius-md)",
         lg: "var(--radius-lg)",
       },
-      spacing: {
-        xs: "var(--spacing-xs)",
-        sm: "var(--spacing-sm)",
-        md: "var(--spacing-md)",
-        lg: "var(--spacing-lg)",
-        xl: "var(--spacing-xl)",
-      },
     },
   },
   plugins: [],
