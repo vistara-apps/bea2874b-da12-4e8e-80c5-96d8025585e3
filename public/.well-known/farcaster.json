@@ -1,0 +1,30 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEyMzQ1LCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4NzQyZDM1Q2M2NjM0QzA1MzI5MjVhM2I4NDRCYzllNzU5NWYwYkViIn0",
+    "payload": "eyJkb21haW4iOiJvbmNoYWlubGVucy5hcHAifQ",
+    "signature": "MHgxMjM0NTY3ODkwYWJjZGVmMTIzNDU2Nzg5MGFiY2RlZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3ODkwYWJjZGVmMTIzNDU2Nzg5MGFiY2RlZjEyMzQ1Njc4OTBhYmNkZWYxMjM0NTY3ODkwYWJjZGVm"
+  },
+  "frame": {
+    "version": "next",
+    "name": "Onchain Lens",
+    "homeUrl": "https://onchainlens.app",
+    "iconUrl": "https://onchainlens.app/icon.png",
+    "splashImageUrl": "https://onchainlens.app/splash.png",
+    "splashBackgroundColor": "#0a0e27",
+    "webhookUrl": "https://onchainlens.app/api/webhook",
+    "subtitle": "Base Onchain Intelligence",
+    "description": "Discover, Track, and Share Base Onchain Intelligence with Your Farcaster Network",
+    "screenshotUrls": [
+      "https://onchainlens.app/screenshot1.png",
+      "https://onchainlens.app/screenshot2.png",
+      "https://onchainlens.app/screenshot3.png"
+    ],
+    "primaryCategory": "social",
+    "tags": ["base", "onchain", "analytics", "social"],
+    "heroImageUrl": "https://onchainlens.app/hero.png",
+    "tagline": "Onchain Intelligence for Farcaster",
+    "ogTitle": "Onchain Lens - Base Onchain Intelligence",
+    "ogDescription": "Discover, Track, and Share Base Onchain Intelligence with Your Farcaster Network",
+    "ogImageUrl": "https://onchainlens.app/og.png"
+  }
+}
