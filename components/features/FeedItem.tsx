@@ -1,9 +1,7 @@
-'use client';
-
 import { Transaction } from '@/lib/types';
-import { Card, CardContent, CardHeader } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
 import { formatAddress, formatTimestamp, formatValue } from '@/lib/utils';
+import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 
 interface FeedItemProps {
@@ -18,56 +16,50 @@ export function FeedItem({ transaction }: FeedItemProps) {
   };
   
   return (
-    <Card hover className="mb-4">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <Badge variant={statusVariant[transaction.status]}>
-            {transaction.status.toUpperCase()}
-          </Badge>
-          <span className="text-xs text-textSecondary">
-            {formatTimestamp(transaction.timestamp)}
-          </span>
+    <Card hover glow className="space-y-3">
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <div className="flex items-center space-x-2 mb-2">
+            <Badge variant={statusVariant[transaction.status]}>
+              {transaction.status}
+            </Badge>
+            {transaction.contractMethod && (
+              <Badge>{transaction.contractMethod}</Badge>
+            )}
+          </div>
+          
+          <div className="flex items-center space-x-2 text-sm text-textSecondary">
+            <span className="font-mono">{formatAddress(transaction.from)}</span>
+            <ArrowRight className="w-4 h-4" />
+            <span className="font-mono">{formatAddress(transaction.to)}</span>
+          </div>
         </div>
-      </CardHeader>
+        
+        <a
+          href={`https://basescan.org/tx/${transaction.hash}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary hover:text-accent transition-colors"
+        >
+          <ExternalLink className="w-5 h-5" />
+        </a>
+      </div>
       
-      <CardContent>
-        <div className="space-y-3">
-          {/* From/To Addresses */}
-          <div className="flex items-center space-x-2 text-sm">
-            <span className="text-textSecondary">From:</span>
-            <code className="text-primary font-mono">{formatAddress(transaction.from)}</code>
-            <ArrowRight className="w-4 h-4 text-textSecondary" />
-            <code className="text-accent font-mono">{formatAddress(transaction.to)}</code>
-          </div>
-          
-          {/* Value */}
-          <div className="flex items-center justify-between">
-            <span className="text-textSecondary text-sm">Value:</span>
-            <span className="text-textPrimary font-semibold">
-              {formatValue(transaction.value)} ETH
-            </span>
-          </div>
-          
-          {/* Contract Method */}
-          {transaction.contractMethod && (
-            <div className="flex items-center justify-between">
-              <span className="text-textSecondary text-sm">Method:</span>
-              <Badge variant="primary">{transaction.contractMethod}</Badge>
-            </div>
-          )}
-          
-          {/* View on Explorer */}
-          <a
-            href={`https://basescan.org/tx/${transaction.hash}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center space-x-1 text-primary hover:text-accent text-sm transition-colors"
-          >
-            <span>View on BaseScan</span>
-            <ExternalLink className="w-4 h-4" />
-          </a>
+      <div className="flex items-center justify-between pt-3 border-t border-white border-opacity-10">
+        <div>
+          <p className="text-xs text-textSecondary">Value</p>
+          <p className="text-lg font-semibold text-textPrimary">
+            {formatValue(transaction.value)} ETH
+          </p>
         </div>
-      </CardContent>
+        
+        <div className="text-right">
+          <p className="text-xs text-textSecondary">Time</p>
+          <p className="text-sm text-textPrimary">
+            {formatTimestamp(transaction.timestamp)}
+          </p>
+        </div>
+      </div>
     </Card>
   );
 }

@@ -3,17 +3,16 @@ import { cn } from '@/lib/utils';
 
 interface BadgeProps {
   children: ReactNode;
-  variant?: 'default' | 'success' | 'warning' | 'danger' | 'primary';
+  variant?: 'default' | 'success' | 'warning' | 'danger';
   className?: string;
 }
 
 export function Badge({ children, variant = 'default', className }: BadgeProps) {
   const variants = {
-    default: 'bg-surface text-textPrimary',
-    success: 'bg-success/20 text-success border border-success/30',
-    warning: 'bg-warning/20 text-warning border border-warning/30',
-    danger: 'bg-danger/20 text-danger border border-danger/30',
-    primary: 'bg-primary/20 text-primary border border-primary/30',
+    default: 'bg-primary bg-opacity-20 text-primary',
+    success: 'bg-success bg-opacity-20 text-success',
+    warning: 'bg-warning bg-opacity-20 text-warning',
+    danger: 'bg-danger bg-opacity-20 text-danger',
   };
   
   return (

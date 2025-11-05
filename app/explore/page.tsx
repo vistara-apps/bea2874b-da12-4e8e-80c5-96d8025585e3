@@ -1,99 +1,118 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { AddressCard } from '@/components/features/AddressCard';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { Search, TrendingUp, ExternalLink } from 'lucide-react';
-import { formatAddress } from '@/lib/utils';
+import { Address } from '@/lib/types';
+import { Search, Filter } from 'lucide-react';
 
 export default function ExplorePage() {
-  const [searchAddress, setSearchAddress] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedFilter, setSelectedFilter] = useState<'all' | 'contracts' | 'eoa'>('all');
   
-  const trendingContracts = [
-    { address: '0x4200000000000000000000000000000000000006', name: 'WETH', category: 'Token' },
-    { address: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb', name: 'Uniswap V3', category: 'DEX' },
-    { address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', name: 'USDC', category: 'Token' },
+  // Mock data
+  const mockAddresses: Address[] = [
+    {
+      address: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
+      knownName: 'Uniswap V3 Router',
+      type: 'Contract',
+      balance: '1234.56',
+      transactionCount: 15678,
+    },
+    {
+      address: '0x1234567890123456789012345678901234567890',
+      type: 'EOA',
+      balance: '45.23',
+      transactionCount: 234,
+    },
+    {
+      address: '0x9876543210987654321098765432109876543210',
+      knownName: 'Base Bridge',
+      type: 'Contract',
+      balance: '98765.43',
+      transactionCount: 45678,
+    },
   ];
   
-  const handleSearch = () => {
-    if (searchAddress) {
-      window.open(`https://basescan.org/address/${searchAddress}`, '_blank');
-    }
-  };
+  const filters = [
+    { value: 'all', label: 'All' },
+    { value: 'contracts', label: 'Contracts' },
+    { value: 'eoa', label: 'Wallets' },
+  ];
+  
+  const filteredAddresses = mockAddresses.filter((addr) => {
+    if (selectedFilter === 'contracts') return addr.type === 'Contract';
+    if (selectedFilter === 'eoa') return addr.type === 'EOA';
+    return true;
+  });
   
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <Card className="bg-gradient-to-br from-success/20 to-primary/20 border-success/30">
-        <CardHeader>
-          <CardTitle className="text-2xl">Explore Contracts</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-textSecondary">
-            Search and analyze smart contracts on Base
-          </p>
-        </CardContent>
-      </Card>
-      
-      {/* Search Bar */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex flex-col sm:flex-row gap-2">
-            <Input
-              type="text"
-              placeholder="Enter contract address (0x...)"
-              value={searchAddress}
-              onChange={(e) => setSearchAddress(e.target.value)}
-              className="flex-1"
-            />
-            <Button
-              variant="primary"
-              onClick={handleSearch}
-              disabled={!searchAddress}
-            >
-              <Search className="w-4 h-4 mr-2" />
-              Search
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-      
-      {/* Trending Contracts */}
       <div>
-        <div className="flex items-center space-x-2 mb-4">
-          <TrendingUp className="w-5 h-5 text-primary" />
-          <h2 className="text-xl font-bold text-textPrimary">Trending Contracts</h2>
+        <h1 className="text-3xl font-bold text-textPrimary mb-2">
+          Explore Contracts
+        </h1>
+        <p className="text-textSecondary">
+          Discover and analyze smart contracts on Base
+        </p>
+      </div>
+      
+      {/* Search and Filters */}
+      <div className="space-y-4">
+        <div className="flex gap-2">
+          <Input
+            placeholder="Search by address or name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="flex-1"
+          />
+          <Button>
+            <Search className="w-5 h-5" />
+          </Button>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {trendingContracts.map((contract) => (
-            <Card key={contract.address} hover>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">{contract.name}</CardTitle>
-                  <Badge variant="primary">{contract.category}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <code className="text-sm text-textSecondary font-mono block mb-3">
-                  {formatAddress(contract.address, 6)}
-                </code>
-                <a
-                  href={`https://basescan.org/address/${contract.address}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-1 text-primary hover:text-accent text-sm transition-colors"
-                >
-                  <span>View on BaseScan</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="flex items-center space-x-2">
+          <Filter className="w-5 h-5 text-textSecondary" />
+          <div className="flex gap-2">
+            {filters.map((filter) => (
+              <button
+                key={filter.value}
+                onClick={() => setSelectedFilter(filter.value as any)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  selectedFilter === filter.value
+                    ? 'bg-primary text-white'
+                    : 'bg-surface text-textSecondary hover:text-textPrimary'
+                }`}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
+      
+      {/* Results */}
+      <div className="space-y-4">
+        {filteredAddresses.map((address) => (
+          <AddressCard key={address.address} address={address} />
+        ))}
+      </div>
+      
+      {filteredAddresses.length === 0 && (
+        <div className="text-center py-12 space-y-4">
+          <div className="w-16 h-16 bg-surface rounded-full flex items-center justify-center mx-auto">
+            <Search className="w-8 h-8 text-textSecondary" />
+          </div>
+          <h3 className="text-xl font-semibold text-textPrimary">
+            No results found
+          </h3>
+          <p className="text-textSecondary">
+            Try adjusting your search or filters
+          </p>
+        </div>
+      )}
     </div>
   );
 }

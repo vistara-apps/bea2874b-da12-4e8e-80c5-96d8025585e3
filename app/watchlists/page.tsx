@@ -3,106 +3,118 @@
 import { useState } from 'react';
 import { WatchlistCard } from '@/components/features/WatchlistCard';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Watchlist } from '@/lib/types';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, TrendingUp } from 'lucide-react';
 
 export default function WatchlistsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   
-  // Mock watchlists
+  // Mock data
   const mockWatchlists: Watchlist[] = [
     {
       id: '1',
       name: 'DeFi Protocols',
-      description: 'Major DeFi protocols on Base',
+      description: 'Top DeFi protocols on Base including Uniswap, Aave, and Compound',
       creatorFid: 12345,
       isPublic: true,
       followedByCount: 1234,
-      addresses: ['0x1234...', '0x5678...'],
-      contracts: ['0xabcd...'],
-      tags: ['DeFi', 'Protocols', 'Base'],
+      addresses: ['0x123...', '0x456...', '0x789...'],
+      contracts: ['0xabc...', '0xdef...'],
+      tags: ['DeFi', 'Protocols', 'Trading'],
       createdAt: Date.now() / 1000,
     },
     {
       id: '2',
-      name: 'Whale Wallets',
-      description: 'High-value wallet addresses',
+      name: 'NFT Marketplaces',
+      description: 'Major NFT marketplaces and collections on Base',
       creatorFid: 67890,
       isPublic: true,
-      followedByCount: 856,
-      addresses: ['0x9999...', '0x8888...', '0x7777...'],
-      contracts: [],
-      tags: ['Whales', 'Trading'],
-      createdAt: Date.now() / 1000,
+      followedByCount: 567,
+      addresses: ['0x111...', '0x222...'],
+      contracts: ['0x333...', '0x444...', '0x555...'],
+      tags: ['NFT', 'Marketplace', 'Art'],
+      createdAt: Date.now() / 1000 - 86400,
     },
     {
       id: '3',
-      name: 'NFT Collections',
-      description: 'Popular NFT contracts on Base',
+      name: 'Whale Wallets',
+      description: 'High-value wallets with significant Base holdings',
       creatorFid: 11111,
       isPublic: true,
-      followedByCount: 542,
-      addresses: [],
-      contracts: ['0xaaaa...', '0xbbbb...'],
-      tags: ['NFT', 'Collections', 'Art'],
-      createdAt: Date.now() / 1000,
+      followedByCount: 2345,
+      addresses: ['0xaaa...', '0xbbb...', '0xccc...', '0xddd...'],
+      contracts: [],
+      tags: ['Whales', 'Trading', 'Analytics'],
+      createdAt: Date.now() / 1000 - 172800,
     },
   ];
   
-  const filteredWatchlists = mockWatchlists.filter((w) =>
-    w.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    w.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-  
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <Card className="bg-gradient-to-br from-accent/20 to-primary/20 border-accent/30">
-        <CardHeader>
-          <CardTitle className="text-2xl">Watchlists</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-textSecondary mb-4">
-            Discover and follow curated lists of addresses and contracts
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-textPrimary mb-2">
+            Watchlists
+          </h1>
+          <p className="text-textSecondary">
+            Curated collections of addresses and contracts
           </p>
-          <Button variant="primary" className="w-full sm:w-auto">
-            <Plus className="w-4 h-4 mr-2" />
-            Create Watchlist
-          </Button>
-        </CardContent>
-      </Card>
+        </div>
+        <Button>
+          <Plus className="w-5 h-5 mr-2" />
+          Create
+        </Button>
+      </div>
       
       {/* Search */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-textSecondary" />
+      <div className="flex gap-2">
         <Input
-          type="text"
           placeholder="Search watchlists..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10"
+          className="flex-1"
         />
+        <Button>
+          <Search className="w-5 h-5" />
+        </Button>
+      </div>
+      
+      {/* Trending Section */}
+      <div className="flex items-center space-x-2">
+        <TrendingUp className="w-5 h-5 text-primary" />
+        <h2 className="text-xl font-bold text-textPrimary">
+          Trending Watchlists
+        </h2>
       </div>
       
       {/* Watchlist Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredWatchlists.map((watchlist) => (
+        {mockWatchlists.map((watchlist) => (
           <WatchlistCard
             key={watchlist.id}
             watchlist={watchlist}
-            onFollow={() => console.log('Follow:', watchlist.id)}
+            onFollow={() => console.log('Follow', watchlist.id)}
           />
         ))}
       </div>
       
-      {filteredWatchlists.length === 0 && (
-        <Card>
-          <CardContent className="text-center py-12">
-            <p className="text-textSecondary">No watchlists found matching your search.</p>
-          </CardContent>
-        </Card>
+      {mockWatchlists.length === 0 && (
+        <div className="text-center py-12 space-y-4">
+          <div className="w-16 h-16 bg-surface rounded-full flex items-center justify-center mx-auto">
+            <Plus className="w-8 h-8 text-textSecondary" />
+          </div>
+          <h3 className="text-xl font-semibold text-textPrimary">
+            No watchlists yet
+          </h3>
+          <p className="text-textSecondary max-w-md mx-auto">
+            Create your first watchlist to start tracking addresses and contracts
+          </p>
+          <Button>
+            <Plus className="w-5 h-5 mr-2" />
+            Create Watchlist
+          </Button>
+        </div>
       )}
     </div>
   );

@@ -20,10 +20,10 @@ export function Button({
   const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variants = {
-    primary: 'bg-primary text-white hover:bg-accent active:scale-95',
-    secondary: 'bg-surface text-textPrimary hover:bg-opacity-80 active:scale-95',
-    outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white active:scale-95',
-    ghost: 'text-textPrimary hover:bg-surface active:scale-95',
+    primary: 'bg-primary text-white hover:bg-accent',
+    secondary: 'bg-surface text-textPrimary hover:bg-opacity-80',
+    outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
+    ghost: 'text-textPrimary hover:bg-surface',
   };
   
   const sizes = {
@@ -34,12 +34,7 @@ export function Button({
   
   return (
     <button
-      className={cn(
-        baseStyles,
-        variants[variant],
-        sizes[size],
-        className
-      )}
+      className={cn(baseStyles, variants[variant], sizes[size], className)}
       disabled={disabled || isLoading}
       {...props}
     >
