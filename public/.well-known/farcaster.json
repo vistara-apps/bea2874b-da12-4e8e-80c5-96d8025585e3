@@ -7,11 +7,11 @@
   "frame": {
     "version": "next",
     "name": "Onchain Lens",
-    "homeUrl": "https://onchainlens.app",
+    "homeUrl": "https://app-025585e3-xw59.vercel.app",
     "iconUrl": "https://onchainlens.app/icon.png",
     "splashImageUrl": "https://onchainlens.app/splash.png",
     "splashBackgroundColor": "#0a0e27",
-    "webhookUrl": "https://onchainlens.app/api/webhook",
+    "webhookUrl": "https://app-025585e3-xw59.vercel.app/api/webhook",
     "subtitle": "Base Onchain Intelligence",
     "description": "Discover, Track, and Share Base Onchain Intelligence with Your Farcaster Network",
     "screenshotUrls": [
@@ -20,7 +20,12 @@
       "https://onchainlens.app/screenshot3.png"
     ],
     "primaryCategory": "social",
-    "tags": ["base", "onchain", "analytics", "social"],
+    "tags": [
+      "base",
+      "onchain",
+      "analytics",
+      "social"
+    ],
     "heroImageUrl": "https://onchainlens.app/hero.png",
     "tagline": "Onchain Intelligence for Farcaster",
     "ogTitle": "Onchain Lens - Base Onchain Intelligence",
