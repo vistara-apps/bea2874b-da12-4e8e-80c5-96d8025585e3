@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['basescan.org'],
+    domains: ['onchainlens.app'],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

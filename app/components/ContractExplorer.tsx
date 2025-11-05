@@ -1,117 +1,110 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, ExternalLink, Activity, Users, TrendingUp } from 'lucide-react';
+import { Search, TrendingUp, Activity } from 'lucide-react';
 
 export function ContractExplorer() {
   const [address, setAddress] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
-  const handleSearch = async () => {
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
     if (!address) return;
+    
     setIsSearching(true);
-    // Simulate API call
-    setTimeout(() => setIsSearching(false), 1000);
+    // Simulate search
+    setTimeout(() => {
+      setIsSearching(false);
+    }, 1000);
   };
 
   return (
     <div className="space-y-6">
-      {/* Search Input */}
-      <div className="card">
-        <label className="block text-sm font-semibold mb-2">
-          Contract Address
-        </label>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder="0x..."
-            className="flex-1 bg-bg border border-white/10 rounded-lg px-4 py-3 text-fg placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
-          />
-          <button
-            onClick={handleSearch}
-            disabled={isSearching}
-            className="btn-primary px-6"
-          >
-            {isSearching ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            ) : (
-              <Search className="w-5 h-5" />
-            )}
-          </button>
-        </div>
-      </div>
+      <form onSubmit={handleSearch} className="relative">
+        <input
+          type="text"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Enter contract address (0x...)"
+          className="w-full px-4 py-3 pl-12 bg-surface border border-border rounded-lg text-fg placeholder-muted focus:outline-none focus:border-accent transition-colors"
+        />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
+        <button
+          type="submit"
+          disabled={!address || isSearching}
+          className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-accent text-white text-sm rounded-md hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSearching ? 'Searching...' : 'Search'}
+        </button>
+      </form>
 
-      {/* Trending Contracts */}
-      <div>
-        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-accent" />
-          Trending Contracts
-        </h3>
-        
-        <div className="space-y-3">
-          <TrendingContractCard
-            name="Uniswap V3 Router"
-            address="0x2626...4f2a"
-            interactions={15234}
-            volume="$2.4M"
-          />
-          
-          <TrendingContractCard
-            name="Base NFT Collection"
-            address="0x8b3c...9d2e"
-            interactions={8456}
-            volume="145 ETH"
-          />
-          
-          <TrendingContractCard
-            name="Lending Protocol"
-            address="0x9f2a...4b1c"
-            interactions={6789}
-            volume="$1.8M"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
+      {address && !isSearching && (
+        <div className="p-6 bg-surface rounded-lg border border-border">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-xl font-bold text-fg mb-1">Contract Details</h3>
+              <code className="text-sm text-muted font-mono">{address}</code>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-success/20 text-success rounded-md text-sm">
+              <Activity className="w-4 h-4" />
+              Active
+            </div>
+          </div>
 
-interface TrendingContractCardProps {
-  name: string;
-  address: string;
-  interactions: number;
-  volume: string;
-}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div className="p-4 bg-bg rounded-lg">
+              <p className="text-xs text-muted mb-1">Total Transactions</p>
+              <p className="text-2xl font-bold text-fg">1,234</p>
+              <p className="text-xs text-success flex items-center gap-1 mt-1">
+                <TrendingUp className="w-3 h-3" />
+                +12.5%
+              </p>
+            </div>
+            <div className="p-4 bg-bg rounded-lg">
+              <p className="text-xs text-muted mb-1">Unique Users</p>
+              <p className="text-2xl font-bold text-fg">567</p>
+              <p className="text-xs text-success flex items-center gap-1 mt-1">
+                <TrendingUp className="w-3 h-3" />
+                +8.3%
+              </p>
+            </div>
+            <div className="p-4 bg-bg rounded-lg">
+              <p className="text-xs text-muted mb-1">Total Volume</p>
+              <p className="text-2xl font-bold text-fg">$2.4M</p>
+              <p className="text-xs text-success flex items-center gap-1 mt-1">
+                <TrendingUp className="w-3 h-3" />
+                +15.7%
+              </p>
+            </div>
+            <div className="p-4 bg-bg rounded-lg">
+              <p className="text-xs text-muted mb-1">Gas Used</p>
+              <p className="text-2xl font-bold text-fg">45.2K</p>
+              <p className="text-xs text-muted mt-1">Avg: 36.7</p>
+            </div>
+          </div>
 
-function TrendingContractCard({
-  name,
-  address,
-  interactions,
-  volume,
-}: TrendingContractCardProps) {
-  return (
-    <div className="card hover:border-accent/50 transition-all cursor-pointer group">
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <h4 className="font-bold group-hover:text-accent transition-colors">
-            {name}
-          </h4>
-          <p className="text-sm text-muted font-mono">{address}</p>
+          <div className="space-y-3">
+            <h4 className="text-sm font-semibold text-fg">Recent Interactions</h4>
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="p-3 bg-bg rounded-lg flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                    <Activity className="w-4 h-4 text-accent" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-fg">Transfer</p>
+                    <p className="text-xs text-muted">0x1234...5678 → 0xabcd...ef01</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-semibold text-accent">1.5 ETH</p>
+                  <p className="text-xs text-muted">{i * 5}m ago</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <ExternalLink className="w-5 h-5 text-muted group-hover:text-accent transition-colors" />
-      </div>
-      
-      <div className="flex items-center gap-6 text-sm">
-        <div className="flex items-center gap-2">
-          <Activity className="w-4 h-4 text-accent" />
-          <span className="text-muted">{interactions.toLocaleString()} interactions</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Users className="w-4 h-4 text-accent" />
-          <span className="text-muted">{volume} volume</span>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
